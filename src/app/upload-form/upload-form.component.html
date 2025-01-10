@@ -1,0 +1,12 @@
+<div class="my-3">
+    <label for="formFile" class="form-label">Default file input example</label>
+    <input multiple="true" (change)="selectFiles($event)" class="form-control" type="file" id="formFile">
+</div>
+
+<div *ngIf="currentFileUpload" class="progress my-2">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width: percentage+'%'}">{{percentage}}%</div>
+</div>
+
+<div class="my-3">
+    <button [disabled]="!selectedFiles" (click)="upload()" type="button" class="btn btn-warning">Upload</button>
+</div>
