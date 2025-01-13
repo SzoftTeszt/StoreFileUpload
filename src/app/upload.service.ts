@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -9,8 +10,26 @@ import { finalize } from 'rxjs';
 export class UploadService {
   path="/uploads"
 
+  api="http://localhost:3000/"
+
   constructor(private db:AngularFireDatabase, 
-    private storage:AngularFireStorage) { }
+    private storage:AngularFireStorage,
+  private http:HttpClient) { }
+
+
+uploadFileExpress(file:any){
+  const formData = new FormData()
+  formData.append('file',file)
+  return this.http.post(this.api+'upload',formData)
+}
+uploadFilesExpress(file:any){
+
+  console.log("Multiple Upload!!!", file)
+  const formData = new FormData()
+  const fajlok = new Array(...file)
+  formData.append('files',fajlok)
+  return this.http.post(this.api+'upload-multiple',formData)
+}
 
 
 saveFileData(url:any, filename:any){
@@ -21,6 +40,9 @@ getFiles(){
   return this.db.list(this.path)
 }
 
+getFilesExpress(){
+  return this.http.get(this.api+"files")
+}
 
 
 uploadFile(file:any){
@@ -40,6 +62,10 @@ uploadFile(file:any){
 
   return  uploadTask.percentageChanges()
 
+}
+
+deleteFileExpress(fileName:any){
+  return this.http.delete(this.api+"files/"+fileName)
 }
 
 deleteFile(file:any){

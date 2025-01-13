@@ -13,17 +13,33 @@ files:any
 constructor(
   private uploadService:UploadService
 ){
-  this.uploadService.getFiles().snapshotChanges().pipe(
-    map(
-      (changes:any)=>changes.map((c:any)=> ({key:c.payload.key,...c.payload.val() }))
-    )
-  ).subscribe(
-    (files:any)=>this.files=files
+  this.getFiles()
+  // this.uploadService.getFiles().snapshotChanges().pipe(
+  //   map(
+  //     (changes:any)=>changes.map((c:any)=> ({key:c.payload.key,...c.payload.val() }))
+  //   )
+  // ).subscribe(
+  //   (files:any)=>this.files=files
+  // )
+}
+
+getFiles(){
+  this.uploadService.getFilesExpress().subscribe(
+    (res)=>{
+      this.files=res
+      this.getFiles()
+    }
   )
 }
 
+
 deleteFile(file:any){
   this.uploadService.deleteFile(file)
+}
+deleteFileExpress(file:any){
+  this.uploadService.deleteFileExpress(file).forEach(
+    ()=>this.getFiles()
+  )
 }
 
 }

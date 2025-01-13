@@ -2,9 +2,9 @@
 
 <div *ngFor="let file of files" class="row">
 <div class="col">
-    <a [href]="file.url">{{file.filename.substring(19)}}</a>
+    <a [href]="'http://localhost:3000/uploads//'+file">{{file.substring(file.lastIndexOf('-')+1)}}</a>
 </div>
 <div class="col my-1">
-    <button (click)="deleteFile(file)" type="button" class="btn btn-warning">Delete</button>
+    <button (click)="deleteFileExpress(file)" type="button" class="btn btn-warning">Delete</button>
 </div>
 </div>
